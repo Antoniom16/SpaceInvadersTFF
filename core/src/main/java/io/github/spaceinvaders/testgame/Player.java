@@ -12,24 +12,25 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class Player {
         public Vector2 position;
+        public Vector2 position_bullet;
         public Sprite sprite;
+        public Sprite sprite_bullet;
         public float speed = 350;
-        public Player(Texture image)
+        public float speed_bullet = 950;
+        public Player(Texture image, Texture image_bullet)
         {
-            // Create sprite
             sprite = new Sprite(image);
+            sprite_bullet = new Sprite(image_bullet);
 
-            // Set a fixed scale factor
             float scaleFactor = 0.07f;
             sprite.setScale(scaleFactor);
-
-            // Calculate the dimensions after scaling
+            sprite_bullet.setScale(0.5F);
             float scaledWidth = image.getWidth() * scaleFactor;
             float scaledHeight = image.getHeight() * scaleFactor;
-
-            // Positioning based on previous successful method
+            float bulletHeight = image_bullet.getHeight();
             float xPos = ((Gdx.graphics.getWidth() - scaledWidth) / 2) - 563;
             float yPos = Gdx.graphics.getHeight() - scaledHeight - 985;
+
 
             System.out.println("Screen Width: " + Gdx.graphics.getWidth());
             System.out.println("Screen Height: " + Gdx.graphics.getHeight());
@@ -42,13 +43,24 @@ public class Player {
             System.out.println("Calculated Y Position: " + yPos);
 
             position = new Vector2(xPos, yPos);
+            position_bullet = new Vector2(position.x + (sprite.getWidth()/2.1053F),10);
         }
-    public void Update(float deltaTime){
+    public void Update(float deltaTime)
+    {
+            if (Gdx.input.isKeyPressed(Keys.SPACE) && position_bullet.y>=Gdx.graphics.getHeight()){
+                position_bullet.x = position.x + (sprite.getWidth()/2.1053F);
+                position_bullet.y = 10;
+
+            }
             if (Gdx.input.isKeyPressed(Keys.A)) position.x-=deltaTime*speed;
             if (Gdx.input.isKeyPressed(Keys.D)) position.x+=deltaTime*speed;
 
             if(position.x<=-560) position.x = -560;
             if(position.x>=-15) position.x = -15;
+
+
+        position_bullet.y += deltaTime * speed_bullet;
+
     }
 
     public void Draw(SpriteBatch batch)
@@ -56,5 +68,7 @@ public class Player {
         Update(Gdx.graphics.getDeltaTime());
         sprite.setPosition(position.x, position.y);
         sprite.draw(batch);
+        sprite_bullet.setPosition(position_bullet.x, position_bullet.y);
+        sprite_bullet.draw(batch);
     }
 }

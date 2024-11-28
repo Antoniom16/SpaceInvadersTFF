@@ -7,35 +7,24 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 public class Enemy {
-    public Vector2 position;
-    public Sprite sprite;
-    public Boolean Alive = true;
-    public Enemy(Texture image_enemy)
+    public Vector2 positione;
+    public Vector2 position_initial;
+    public Sprite sprite_enemy;
+    Boolean Alive = true;
+    public Enemy(Vector2 _position,Texture image_enemy)
     {
 
-        sprite = new Sprite (image_enemy);
-
-        float scaleFactor = 1f;
-        sprite.setScale(scaleFactor);
-        float scaledWidth = image_enemy.getWidth() * scaleFactor;
-        float scaledHeight = image_enemy.getHeight() * scaleFactor;
-        float enemyX = ((Gdx.graphics.getWidth() - scaledWidth) / 2);
-        float enemyY = Gdx.graphics.getHeight() - scaledHeight;
-        position = new Vector2(enemyX, enemyY);
-
-        System.out.println("Screen Width: " + Gdx.graphics.getWidth());
-        System.out.println("Screen Height: " + Gdx.graphics.getHeight());
-        System.out.println("Original Sprite Width: " + image_enemy.getWidth());
-        System.out.println("Original Sprite Height: " + image_enemy.getHeight());
-        System.out.println("Scale Factor: " + scaleFactor);
-        System.out.println("Scaled Width: " + scaledWidth);
-        System.out.println("Scaled Height: " + scaledHeight);
-        System.out.println("Calculated X Position: " + enemyX);
-        System.out.println("Calculated Y Position: " + enemyY);
+        positione = _position;
+        position_initial = positione;
+        sprite_enemy = new Sprite (image_enemy);
+        float scaleFactor = 0.16f;
+        sprite_enemy.setScale(scaleFactor);
+        float enemyWidth = image_enemy.getWidth() * scaleFactor;
+        float enemyHeight = image_enemy.getHeight() * scaleFactor;
     }
     public void Draw(SpriteBatch batch)
     {
-        sprite.setPosition(position.x, position.y);
-        sprite.draw(batch);
+        sprite_enemy.setPosition(positione.x, positione.y);
+        sprite_enemy.draw(batch);
     }
 }
